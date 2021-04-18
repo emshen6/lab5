@@ -11,7 +11,7 @@ import java.util.Scanner;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import java.time.LocalDateTime;
 
 //Receiver class
 public class CommandsConfig implements Receiver {
@@ -21,8 +21,8 @@ public class CommandsConfig implements Receiver {
     private final Pattern semesterPattern = Pattern.compile("(FIRST|SECOND|THIRD|FIFTH|SEVENTH)");
     private final Pattern formOfEducationPattern = Pattern.compile("(DISTANCE_EDUCATION|FULL_TIME_EDUCATION|EVENING_CLASSES)");
     private final Stack<String> history = new Stack<>();
-    private LinkedHashMap<String, String> commandsList = new LinkedHashMap<>();
-    private CollectionWrapper collection;
+    private final LinkedHashMap<String, String> commandsList = new LinkedHashMap<>();
+    private final CollectionWrapper collection;
 
     public CommandsConfig(CollectionWrapper collection) {
         this.collection = collection;
@@ -83,9 +83,9 @@ public class CommandsConfig implements Receiver {
             System.out.println("Enter x:");
             float x = Float.parseFloat(sc.nextLine());
             System.out.println("Enter y:");
-            Float y = Float.parseFloat(sc.nextLine());
+            float y = Float.parseFloat(sc.nextLine());
             System.out.println("Enter students count:");
-            Long studentsCount = Long.parseLong(sc.nextLine());
+            long studentsCount = Long.parseLong(sc.nextLine());
             System.out.println("Choose form of education (DISTANCE_EDUCATION/FULL_TIME_EDUCATION/EVENING_CLASSES):");
             String formOfEducation = sc.nextLine();
             matcher = formOfEducationPattern.matcher(formOfEducation);
@@ -127,7 +127,7 @@ public class CommandsConfig implements Receiver {
             System.out.println("Enter x:");
             float x = Float.parseFloat(sc.nextLine());
             System.out.println("Enter y:");
-            Float y = Float.parseFloat(sc.nextLine());
+            float y = Float.parseFloat(sc.nextLine());
             System.out.println("Enter students count:");
             Long studentsCount = Long.parseLong(sc.nextLine());
             System.out.println("Choose form of education (DISTANCE_EDUCATION/FULL_TIME_EDUCATION/EVENING_CLASSES):");
@@ -151,8 +151,8 @@ public class CommandsConfig implements Receiver {
             System.out.println("Enter admin's passport ID:");
             String adminPassportID = sc.nextLine();
             collection.addElementWithId(id, groupName, x, y, studentsCount, formOfEducation, semester, adminName, adminBirthday, height, weight, adminPassportID);
-            System.out.println("Element " + Integer.toString(id) + " updated.");
-            history.push("update " + Integer.toString(id));
+            System.out.println("Element " + id + " updated.");
+            history.push("update " + id);
         } catch (NumberFormatException | IncorrectInputException e) {
             System.out.println("Enter correct data!");
         }
@@ -161,8 +161,8 @@ public class CommandsConfig implements Receiver {
 
     public void removeById(int id) {
         collection.removeById(id);
-        System.out.println("Element " + Integer.toString(id) + " deleted.");
-        history.push("remove_by_id " + Integer.toString(id));
+        System.out.println("Element " + id + " deleted.");
+        history.push("remove_by_id " + id);
     }
 
     public void clear() {
@@ -186,6 +186,7 @@ public class CommandsConfig implements Receiver {
             stream.write(buffer, 0, buffer.length);
             System.out.println("Collection saved!");
             history.push("save");
+            collection.changeSaveTime(LocalDateTime.now());
         } catch (IOException e) {
             System.out.println("Err while saving!");
         }
@@ -204,8 +205,8 @@ public class CommandsConfig implements Receiver {
 
     public void removeAllByStudentsCount(Long count) {
         collection.removeByCount(count);
-        System.out.println("Groups with " + Long.toString(count) + " students removed.");
-        history.push("remove_all_by_students_count " + Long.toString(count));
+        System.out.println("Groups with " + count + " students removed.");
+        history.push("remove_all_by_students_count " + count);
     }
 
     public void history() {
@@ -241,6 +242,6 @@ public class CommandsConfig implements Receiver {
     public void countByStudentsCount(Long studentsCount) {
         Long k = collection.countGroupsByStudentsCount(studentsCount);
         System.out.println(k);
-        history.push("count_by_students_count " + Long.toString(studentsCount));
+        history.push("count_by_students_count " + studentsCount);
     }
 }

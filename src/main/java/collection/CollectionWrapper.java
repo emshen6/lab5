@@ -11,7 +11,7 @@ import java.util.*;
 
 public class CollectionWrapper {
     private final String envVariable;
-    private final PriorityQueue<StudyGroup> collection = new PriorityQueue<>();
+    private PriorityQueue<StudyGroup> collection = new PriorityQueue<>();
     private final LocalDateTime initTime;
     private LocalDateTime lastSaveTime;
     private int currentId = 1;
@@ -32,13 +32,13 @@ public class CollectionWrapper {
                 String[] dataPackage;
                 //String data = "";
                 while (c != -1) {
-                    String data = "";
+                    StringBuilder data = new StringBuilder();
                     while (((char) c!='\n')&&(c != -1)){
                         //c = in.read();
-                        data += (char) c;
+                        data.append((char) c);
                         c = in.read();
                     }
-                    dataPackage = data.split(";");
+                    dataPackage = data.toString().split(";");
                     collection.add(new StudyGroup(
                                     currentId,
                                     dataPackage[0],
@@ -84,12 +84,12 @@ public class CollectionWrapper {
     }
 
     public String toString(){
-        String result = "";// Use StringBuilder
+        StringBuilder result = new StringBuilder();// Use StringBuilder
         for (StudyGroup item: collection){
-            result += item.getStudyGroup();
-            result+="\n";
+            result.append(item.getStudyGroup());
+            result.append("\n");
         }
-        return result;
+        return result.toString();
     }
 
     public void addElement(String groupName,
@@ -162,7 +162,7 @@ public class CollectionWrapper {
     }
 
     public void clear(){
-        collection.removeAll(collection);
+        collection = new PriorityQueue<>();
     }
 
     public String getEnvVariable(){
@@ -174,7 +174,7 @@ public class CollectionWrapper {
     }
 
     public void showAndRemoveFirst(){
-        System.out.println(collection.poll().getStudyGroup());
+        System.out.println(Objects.requireNonNull(collection.poll()).getStudyGroup());
     }
 
     public void removeByCount(Long count){
@@ -182,7 +182,7 @@ public class CollectionWrapper {
     }
 
     public void printAscending(){
-        PriorityQueue<StudyGroup> c = new PriorityQueue<>(new AscendingCompare ());
+        PriorityQueue<StudyGroup> c = new PriorityQueue<>(new AscendingCompare());
         c.addAll(collection);
         for (StudyGroup i : c) {
             System.out.println(i.getStudyGroup());
@@ -191,19 +191,23 @@ public class CollectionWrapper {
     }
 
 
-    public class AscendingCompare implements Comparator<StudyGroup> {
+    public static class AscendingCompare implements Comparator<StudyGroup> {
         public int compare(StudyGroup o1, StudyGroup o2) {
             return -o1.compareTo(o2);
         }
     }
 
     public Long countGroupsByStudentsCount(Long studentsCount){
-        Long k = new Long(0);
+        long k = 0L;
         for (StudyGroup i: collection){
-            if (i.getStudentsCount()==studentsCount){
+            if (i.getStudentsCount().equals(studentsCount)){
                 k+=1;
             }
         }
         return k;
+    }
+
+    public void changeSaveTime(LocalDateTime newSaveTime){
+        lastSaveTime = newSaveTime;
     }
 }
