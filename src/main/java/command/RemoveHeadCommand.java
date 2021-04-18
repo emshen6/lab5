@@ -1,6 +1,6 @@
 package command;
 
-public class RemoveHeadCommand implements Command{
+public class RemoveHeadCommand implements CommandWithArgs {
     private final Receiver receiver;
 
     public RemoveHeadCommand(Receiver receiver) {

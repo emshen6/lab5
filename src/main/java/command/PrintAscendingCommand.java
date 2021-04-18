@@ -1,6 +1,6 @@
 package command;
 
-public class PrintAscendingCommand implements Command  {
+public class PrintAscendingCommand implements CommandWithArgs {
     private final Receiver receiver;
 
     public PrintAscendingCommand(Receiver receiver) {

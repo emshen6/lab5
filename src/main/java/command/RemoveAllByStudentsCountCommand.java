@@ -1,6 +1,6 @@
 package command;
 
-public class RemoveAllByStudentsCountCommand implements Command{
+public class RemoveAllByStudentsCountCommand implements CommandWithArgs {
     private final Receiver receiver;
 
     public RemoveAllByStudentsCountCommand(Receiver receiver) {

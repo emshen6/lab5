@@ -1,6 +1,6 @@
 package command;
 
-public class RemoveByIdCommand implements Command{
+public class RemoveByIdCommand implements CommandWithArgs {
     private final Receiver receiver;
 
     public RemoveByIdCommand(Receiver receiver) {

@@ -1,7 +1,7 @@
 package command;
 
 //команда для вывода информации о коллекции
-public class InfoCommand implements Command {
+public class InfoCommand implements CommandWithArgs {
     private final Receiver receiver;
 
     public InfoCommand(Receiver receiver) {

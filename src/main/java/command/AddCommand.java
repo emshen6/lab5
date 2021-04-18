@@ -1,6 +1,6 @@
 package command;
 
-public class AddCommand implements Command{
+public class AddCommand implements CommandWithArgs {
     private final Receiver receiver;
 
     public AddCommand(Receiver receiver) {

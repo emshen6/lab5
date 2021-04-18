@@ -18,8 +18,10 @@ public class CollectionWrapper {
 
     public CollectionWrapper(String envVariable) {
         this.envVariable = envVariable;
+        System.out.println(envVariable);
         this.initTime = LocalDateTime.now();
-        readCollection();
+        System.out.println(System.getenv().get(envVariable));
+        //readCollection();
     }
 
     public void readCollection() {

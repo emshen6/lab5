@@ -1,6 +1,6 @@
 package command;
 
-public class SaveCommand implements Command{
+public class SaveCommand implements CommandWithArgs {
     private final Receiver receiver;
 
     public SaveCommand(Receiver receiver) {

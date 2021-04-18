@@ -1,6 +1,6 @@
 package command;
 
-public class RemoveFirstCommand implements Command{
+public class RemoveFirstCommand implements CommandWithArgs {
     private final Receiver receiver;
 
     public RemoveFirstCommand(Receiver receiver) {

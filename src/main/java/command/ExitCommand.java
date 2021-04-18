@@ -1,6 +1,6 @@
 package command;
 
-public class ExitCommand implements Command {
+public class ExitCommand implements CommandWithArgs {
     private final Receiver receiver;
 
     public ExitCommand(Receiver receiver) {

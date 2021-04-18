@@ -1,6 +1,6 @@
 package command;
 
-public class ClearCommand implements Command{
+public class ClearCommand implements CommandWithArgs {
 
     private final Receiver receiver;
 

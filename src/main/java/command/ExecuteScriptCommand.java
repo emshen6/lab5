@@ -1,13 +1,13 @@
 package command;
 
-public class ExecuteScriptCommand implements Command{
+public class ExecuteScriptCommand implements CommandWithArgs {
     private final Receiver receiver;
 
     public ExecuteScriptCommand(Receiver receiver) {
         this.receiver = receiver;
     }
 
-    public int execute(String args[]) {
+    public int execute(String[] args) {
         String filename = args[1];
         this.receiver.executeScript(filename);
         return 0;

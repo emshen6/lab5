@@ -1,6 +1,6 @@
 package command;
 
-public class UpdateIdCommand implements Command{
+public class UpdateIdCommand implements CommandWithArgs {
     private final Receiver receiver;
 
     public UpdateIdCommand(Receiver receiver) {

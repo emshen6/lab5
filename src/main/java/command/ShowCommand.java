@@ -1,7 +1,7 @@
 package command;
 
 //команда для вывода всех элементов коллекции
-public class ShowCommand implements Command {
+public class ShowCommand implements CommandWithArgs {
     private final Receiver receiver;
 
     public ShowCommand(Receiver receiver) {

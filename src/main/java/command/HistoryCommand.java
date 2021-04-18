@@ -1,6 +1,6 @@
 package command;
 
-public class HistoryCommand implements Command{
+public class HistoryCommand implements CommandWithArgs {
     private final Receiver receiver;
 
     public HistoryCommand(Receiver receiver) {
