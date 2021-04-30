@@ -1,23 +1,25 @@
 package command;
 
-public class UpdateIdCommand implements CommandWithArgs {
+
+import collection.StudyGroupBuilder;
+
+public class UpdateIdCommand implements CommandWithArg {
     private final Receiver receiver;
 
     public UpdateIdCommand(Receiver receiver) {
         this.receiver = receiver;
     }
 
-    public int execute(String[] args) {
-        try {
-            int id = Integer.parseInt(args[1]);
-            this.receiver.updateId(id);
-        }catch (NumberFormatException e){
-            System.out.println("Incorrect input.");
-        }
+    public int execute(String arg) {
+        int id = Integer.parseInt(arg);
+        StudyGroupBuilder builder = new StudyGroupBuilder();
+        builder.userInput();
+        builder.setId(id);
+        receiver.updateId(builder, id);
         return 0;
     }
 
-    public String toString(){
+    public String toString() {
         return "updateId";
     }
 }

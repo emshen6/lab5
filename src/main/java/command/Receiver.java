@@ -1,5 +1,7 @@
 package command;
 
+import collection.StudyGroupBuilder;
+
 //Receiver interface
 public interface Receiver {
     void help();
@@ -10,9 +12,9 @@ public interface Receiver {
 
     void exit();
 
-    void add();
+    void add(StudyGroupBuilder builder);
 
-    void updateId(int id);
+    void updateId(StudyGroupBuilder builder, int id);
 
     void removeById(int id);
 

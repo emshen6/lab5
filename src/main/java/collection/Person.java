@@ -18,13 +18,32 @@ public class Person {
     }
 
     public String getPerson() {
-        String result = String.join(";",
+        return String.join(";",
                 name,
                 birthday.toString(),
                 Double.toString(height),
                 Double.toString(weight),
                 passportID
         );
-        return result;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public String getPassportID() {
+        return passportID;
     }
 }

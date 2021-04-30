@@ -1,213 +1,188 @@
 package collection;
 
-import execeptions.ExistingIDException;
+
+import util.ClientOutput;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Objects;
+import java.util.PriorityQueue;
 
 public class CollectionWrapper {
     private final String envVariable;
-    private PriorityQueue<StudyGroup> collection = new PriorityQueue<>();
     private final LocalDateTime initTime;
-    private LocalDateTime lastSaveTime;
+    private PriorityQueue<StudyGroup> collection = new PriorityQueue<>();
     private int currentId = 1;
 
     public CollectionWrapper(String envVariable) {
         this.envVariable = envVariable;
-        System.out.println(envVariable);
         this.initTime = LocalDateTime.now();
-        System.out.println(System.getenv().get(envVariable));
-        //readCollection();
+        readCollection();
     }
 
     public void readCollection() {
-        if (System.getenv().get(envVariable) != null) {
-            try (InputStreamReader in = new InputStreamReader(new FileInputStream(System.getenv().get(envVariable)))) {
+        String filename = System.getenv().get(envVariable);
+        if (filename != null) {
+            try (InputStreamReader in = new InputStreamReader(new FileInputStream(filename))) {
                 int c = in.read();
-                //System.out.println(c);
                 String[] dataPackage;
-                //String data = "";
                 while (c != -1) {
                     StringBuilder data = new StringBuilder();
-                    while (((char) c!='\n')&&(c != -1)){
-                        //c = in.read();
+                    while (((char) c != '\n') && (c != -1)) {
                         data.append((char) c);
                         c = in.read();
                     }
                     dataPackage = data.toString().split(";");
-                    collection.add(new StudyGroup(
-                                    currentId,
-                                    dataPackage[0],
-                                    Float.parseFloat(dataPackage[1]),
-                                    Float.parseFloat(dataPackage[2]),
-                                    LocalDate.now(),
-                                    Long.parseLong(dataPackage[3]),
-                                    Visitor.visitFormOfEducation(dataPackage[4]),
-                                    Visitor.visitSemester(dataPackage[5]),
-                                    Visitor.visitPerson(dataPackage[6], dataPackage[7], dataPackage[8], dataPackage[9], dataPackage[10])
-                            )
-                    );
+
+                    StudyGroupBuilder builder = new StudyGroupBuilder();
+                    builder.reset();
+                    builder.setId(currentId);
                     currentId += 1;
+                    builder.setGroupName(dataPackage[0]);
+                    int i;
+                    if (dataPackage.length == 11) {
+                        i = 3;
+                        builder.setCoordinates(dataPackage[1], dataPackage[2]);
+                    } else {
+                        i = 2;
+                        builder.setCoordinates(dataPackage[1]);
+                    }
+                    builder.setCreationDate(LocalDate.now());
+                    builder.setStudentsCount(dataPackage[i]);
+                    builder.setFormOfEducation(dataPackage[i + 1]);
+                    builder.setSemester(dataPackage[i + 2]);
+                    builder.setAdmin(dataPackage[i + 3], dataPackage[i + 4], dataPackage[i + 5], dataPackage[i + 6], dataPackage[i + 7]);
+                    StudyGroup element = builder.getResult();
+                    if (Validation.validateStudyGroup(element)) {
+                        collection.add(element);
+                        ClientOutput.print("Element added.");
+                    } else {
+                        ClientOutput.print("Invalid element!");
+                    }
                     c = in.read();
-                    System.out.println(c);
                 }
-                printCollection();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("no file");
+            ClientOutput.print("no file");
         }
     }
 
     public void printCollection() {
         for (StudyGroup i : collection) {
-            System.out.println(i.getStudyGroup());
-            System.out.println();
+            ClientOutput.print(i.getStudyGroupString());
+            ClientOutput.print();
         }
     }
 
-    public String getType(){
+    public String getType() {
         return collection.getClass().getName();
     }
 
-    public LocalDateTime getInitTime(){
+    public LocalDateTime getInitTime() {
         return initTime;
     }
 
-    public int getSize(){
+    public int getSize() {
         return collection.size();
     }
 
-    public String toString(){
-        StringBuilder result = new StringBuilder();// Use StringBuilder
-        for (StudyGroup item: collection){
-            result.append(item.getStudyGroup());
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        for (StudyGroup item : collection) {
+            result.append(item.getStudyGroupString());
             result.append("\n");
         }
         return result.toString();
     }
 
-    public void addElement(String groupName,
-                           Float x,
-                           float y,
-                           Long studentsCount,
-                           String formOfEducation,
-                           String semester,
-                           String adminName,
-                           String adminBirthday,
-                           String adminHeight,
-                           String adminWeight,
-                           String adminPassportID
-    ){
-        collection.add(new StudyGroup(
-                        currentId,
-                        groupName,
-                        x,
-                        y,
-                        LocalDate.now(),
-                        studentsCount,
-                        Visitor.visitFormOfEducation(formOfEducation),
-                        Visitor.visitSemester(semester),
-                        Visitor.visitPerson(adminName, adminBirthday, adminHeight, adminWeight, adminPassportID)
-                )
-        );
-        currentId+=1;
-
+    public String getSavableView(){
+        StringBuilder result = new StringBuilder();
+        for (StudyGroup item : collection) {
+            result.append(item.getAnotherStudyGroupString());
+            result.append("\n");
+        }
+        return result.toString();
     }
 
-    public void addElementWithId(int id,
-                                 String groupName,
-                                 Float x,
-                                 float y,
-                                 Long studentsCount,
-                                 String formOfEducation,
-                                 String semester,
-                                 String adminName,
-                                 String adminBirthday,
-                                 String adminHeight,
-                                 String adminWeight,
-                                 String adminPassportID
-    )
-    {
-        try{
-            for (StudyGroup element: collection){
-                if (element.getId()==id){
-                    throw new ExistingIDException();
-                }
-            }
-            collection.add(new StudyGroup(
-                            id,
-                            groupName,
-                            x,
-                            y,
-                            LocalDate.now(),
-                            studentsCount,
-                            Visitor.visitFormOfEducation(formOfEducation),
-                            Visitor.visitSemester(semester),
-                            Visitor.visitPerson(adminName, adminBirthday, adminHeight, adminWeight, adminPassportID)
-                    )
-            );
-        } catch (ExistingIDException e){
-            e.printStackTrace();
+    public boolean addElement(StudyGroupBuilder builder) {
+        builder.setId(currentId);
+        builder.setCreationDate(LocalDate.now());
+        StudyGroup element = builder.getResult();
+        if (Validation.validateStudyGroup(element)) {
+            collection.add(element);
+            ClientOutput.print("Element added.");
+            currentId += 1;
+            return true;
+        } else {
+            ClientOutput.print("Study group invalid!");
+            return false;
         }
     }
 
-    public void removeById(int id){
-        collection.removeIf(group -> (group.getId()==id));
+    public void addElement(StudyGroup group) {
+        collection.add(group);
+        ClientOutput.print("Element added.");
     }
 
-    public void clear(){
+    public void removeById(int id) {
+        collection.removeIf(group -> (group.getId() == id));
+    }
+
+    public void clear() {
         collection = new PriorityQueue<>();
     }
 
-    public String getEnvVariable(){
+    public String getEnvVariable() {
         return envVariable;
     }
 
-    public void removeFirst(){
+    public void removeFirst() {
         collection.poll();
     }
 
-    public void showAndRemoveFirst(){
-        System.out.println(Objects.requireNonNull(collection.poll()).getStudyGroup());
+    public void showAndRemoveFirst() {
+        ClientOutput.print(Objects.requireNonNull(collection.poll()).getStudyGroupString());
     }
 
-    public void removeByCount(Long count){
+    public void removeByCount(Long count) {
         collection.removeIf(group -> (group.getStudentsCount().equals(count)));
     }
 
-    public void printAscending(){
+    public void printAscending() {
         PriorityQueue<StudyGroup> c = new PriorityQueue<>(new AscendingCompare());
         c.addAll(collection);
         for (StudyGroup i : c) {
-            System.out.println(i.getStudyGroup());
-            System.out.println();
+            ClientOutput.print(i.getStudyGroupString());
+            ClientOutput.print();
         }
     }
 
-
-    public static class AscendingCompare implements Comparator<StudyGroup> {
-        public int compare(StudyGroup o1, StudyGroup o2) {
-            return -o1.compareTo(o2);
-        }
-    }
-
-    public Long countGroupsByStudentsCount(Long studentsCount){
+    public Long countGroupsByStudentsCount(Long studentsCount) {
         long k = 0L;
-        for (StudyGroup i: collection){
-            if (i.getStudentsCount().equals(studentsCount)){
-                k+=1;
+        for (StudyGroup i : collection) {
+            if (i.getStudentsCount().equals(studentsCount)) {
+                k += 1;
             }
         }
         return k;
     }
 
-    public void changeSaveTime(LocalDateTime newSaveTime){
-        lastSaveTime = newSaveTime;
+    public StudyGroup getGroupById(int id) {
+        for (StudyGroup item : collection) {
+            if (item.getId() == id) return item;
+        }
+        return null;
+    }
+
+    public static class AscendingCompare implements Comparator<StudyGroup> {
+        public int compare(StudyGroup o1, StudyGroup o2) {
+            return -o1.compareTo(o2);
+        }
     }
 }

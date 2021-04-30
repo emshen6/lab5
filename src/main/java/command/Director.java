@@ -1,7 +1,7 @@
 package command;
 
 public class Director {
-    public void constructConsole(Builder builder){
+    public void constructConsole(Builder builder) {
         builder.reset();
         builder.setHelpCommand();
         builder.setInfoCommand();

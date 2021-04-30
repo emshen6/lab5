@@ -1,0 +1,1 @@
+execute_script D:/dev/lab5/script1.txt

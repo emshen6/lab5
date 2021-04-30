@@ -1,6 +1,6 @@
 package command;
 
-public class ClearCommand implements CommandWithArgs {
+public class ClearCommand implements CommandWithoutArg {
 
     private final Receiver receiver;
 
@@ -8,12 +8,12 @@ public class ClearCommand implements CommandWithArgs {
         this.receiver = receiver;
     }
 
-    public int execute(String[] args) {
+    public int execute() {
         receiver.clear();
         return 0;
     }
 
-    public String toString(){
+    public String toString() {
         return "clear";
     }
 }

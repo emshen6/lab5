@@ -1,6 +1,7 @@
 import collection.CollectionWrapper;
 import command.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class Main {
@@ -9,22 +10,16 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         CollectionWrapper collection = new CollectionWrapper(envVar);
         collection.printCollection();
-        CommandsConfig commandsconfig = new CommandsConfig(collection);
-        ConsoleBuilder builder = new ConsoleBuilder(commandsconfig);
+        ConsoleReceiver consoleReceiver = new ConsoleReceiver(collection);
+        ConsoleBuilder builder = new ConsoleBuilder(consoleReceiver);
         Director director = new Director();
         director.constructConsole(builder);
-        Console console = builder.getResult();
-        System.out.println(console.getHelpCommand());
-        console.getHelpCommand().execute();
-        //Console console = new Console(new HelpCommand(commandsconfig), new InfoCommand(commandsconfig), new ShowCommand(commandsconfig), new ExitCommand(commandsconfig), new AddCommand(commandsconfig), new UpdateIdCommand(commandsconfig), new SaveCommand(commandsconfig), new ClearCommand(commandsconfig), new RemoveByIdCommand(commandsconfig), new RemoveFirstCommand(commandsconfig), new RemoveHeadCommand(commandsconfig), new RemoveAllByStudentsCountCommand(commandsconfig), new HistoryCommand(commandsconfig), new ExecuteScriptCommand(commandsconfig), new PrintAscendingCommand(commandsconfig), new CountByStudentsCount(commandsconfig));
-        /*
+        ConsoleInvoker console = builder.getResult();
+
         int flag=0;
         while (flag == 0) {
-            System.out.println(1);
             String line = sc.nextLine();
-            System.out.println(2);
             flag = console.execute(line);
         }
-         */
     }
 }

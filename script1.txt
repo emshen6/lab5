@@ -1,0 +1,4 @@
+info
+show
+help
+execute_script D:/dev/lab5/script2.txt
