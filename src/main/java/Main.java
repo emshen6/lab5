@@ -1,7 +1,6 @@
 import collection.CollectionWrapper;
 import command.*;
 
-import java.time.LocalDate;
 import java.util.*;
 
 public class Main {
@@ -10,7 +9,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         CollectionWrapper collection = new CollectionWrapper(envVar);
         collection.printCollection();
-        ConsoleReceiver consoleReceiver = new ConsoleReceiver(collection);
+        CommandManager consoleReceiver = new CommandManager(collection);
         ConsoleBuilder builder = new ConsoleBuilder(consoleReceiver);
         Director director = new Director();
         director.constructConsole(builder);

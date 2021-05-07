@@ -12,32 +12,18 @@ public class StudyGroup implements Comparable<StudyGroup> {
     private Semester semesterEnum; //Поле не может быть null
     private Person groupAdmin; //Поле не может быть null
 
-    public String getStudyGroupString() {
-        String result = String.join(
-                ";",
-                Integer.toString(id),
-                name,
-                coordinates.toString(),
-                creationDate.toString(),
-                Long.toString(studentsCount),
-                formOfEducation.getText(),
-                semesterEnum.getText(),
-                groupAdmin.getPerson()
-        );
-        return result;
+    public StudyGroup(StudyGroupBuilder builder) {
+        name = builder.getName();
+        coordinates = builder.getCoordinates();
+        creationDate = builder.getCreationDate();
+        studentsCount = builder.getStudentsCount();
+        formOfEducation = builder.getFormOfEducation();
+        semesterEnum = builder.getSemesterEnum();
+        groupAdmin = builder.getGroupAdmin();
     }
 
-    public String getAnotherStudyGroupString() {
-        String result = String.join(
-                ";",
-                name,
-                coordinates.toString(),
-                Long.toString(studentsCount),
-                formOfEducation.getText(),
-                semesterEnum.getText(),
-                groupAdmin.getPerson()
-        );
-        return result;
+    public String toFormattedString(StudyGroupFormatter formatter) {
+        return new StudyGroupFormatter().format(this);
     }
 
     public void setAdmin(Person admin) {

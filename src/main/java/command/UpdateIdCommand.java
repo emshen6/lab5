@@ -3,7 +3,7 @@ package command;
 
 import collection.StudyGroupBuilder;
 
-public class UpdateIdCommand implements CommandWithArg {
+public class UpdateIdCommand implements Command {
     private final Receiver receiver;
 
     public UpdateIdCommand(Receiver receiver) {

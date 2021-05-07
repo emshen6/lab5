@@ -7,46 +7,78 @@ import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class StudyGroupBuilder implements Builder {
-
+public class StudyGroupBuilder {
     private StudyGroup result;
+    private String name;
+    private Coordinates coordinates;
+    private final LocalDate creationDate = LocalDate.now();
+    private Long studentsCount;
+    private FormOfEducation formOfEducation;
+    private Semester semesterEnum;
+    private Person groupAdmin;
 
-    public void reset() {
-        result = new StudyGroup();
+    public String getName() {
+        return name;
     }
 
-    @Override
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public Long getStudentsCount() {
+        return studentsCount;
+    }
+
+    public FormOfEducation getFormOfEducation() {
+        return formOfEducation;
+    }
+
+    public Semester getSemesterEnum() {
+        return semesterEnum;
+    }
+
+    public Person getGroupAdmin() {
+        return groupAdmin;
+    }
+
+    public StudyGroupBuilder setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public StudyGroup build() {
+        return new StudyGroup(this);
+    }
+
     public void setId(int id) {
         result.setId(id);
     }
 
-    @Override
     public void setGroupName(String name) {
         result.setName(name);
     }
 
-    @Override
     public void setCoordinates(String x, String y) {
         Coordinates coordinates = new Coordinates(Float.parseFloat(x), Float.parseFloat(y));
         result.setCoordinates(coordinates);
     }
 
-    @Override
+
     public void setCoordinates(String x) {
         Coordinates coordinates = new Coordinates(Float.parseFloat(x));
     }
 
-    @Override
+
     public void setCreationDate(LocalDate date) {
         result.setCreationDate(date);
     }
 
-    @Override
+
     public void setStudentsCount(String count) {
         result.setStudentsCount(Long.parseLong(count));
     }
 
-    @Override
+
     public void setFormOfEducation(String formOfEducation) {
         HashMap<String, FormOfEducation> list = new HashMap<String, FormOfEducation>() {{
             put("DISTANCE_EDUCATION", FormOfEducation.DISTANCE_EDUCATION);
@@ -57,7 +89,7 @@ public class StudyGroupBuilder implements Builder {
         result.setFormOfEducation(arg);
     }
 
-    @Override
+
     public void setSemester(String semester) {
         HashMap<String, Semester> list = new HashMap<String, Semester>() {{
             put("FIRST", Semester.FIRST);
@@ -70,7 +102,7 @@ public class StudyGroupBuilder implements Builder {
         result.setSemesterEnum(arg);
     }
 
-    @Override
+
     public void setAdmin(String name, String birthday, String height, String weight, String passportID) {
         System.out.println(birthday);
         LocalDate date = LocalDate.parse(birthday);
@@ -80,7 +112,6 @@ public class StudyGroupBuilder implements Builder {
 
     public void userInput() {
         Scanner sc = new Scanner(System.in);
-        reset();
         try {
             ClientOutput.print("Enter group name:");
             String line = sc.nextLine();
@@ -117,11 +148,14 @@ public class StudyGroupBuilder implements Builder {
             setAdmin(adminName, adminBirthday, height, weight, adminPassportID);
         } catch (NumberFormatException | DateTimeParseException e) {
             ClientOutput.print("Enter correct data!");
-            userInput();
         }
     }
 
     public StudyGroup getResult() {
         return result;
+    }
+
+    public Coordinates getCoordinates() {
+        return coordinates;
     }
 }

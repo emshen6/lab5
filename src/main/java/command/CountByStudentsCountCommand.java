@@ -1,6 +1,6 @@
 package command;
 
-public class CountByStudentsCountCommand implements CommandWithArg {
+public class CountByStudentsCountCommand implements Command {
     private final Receiver receiver;
 
     public CountByStudentsCountCommand(Receiver receiver) {

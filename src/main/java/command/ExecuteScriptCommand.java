@@ -1,6 +1,6 @@
 package command;
 
-public class ExecuteScriptCommand implements CommandWithArg {
+public class ExecuteScriptCommand implements Command {
     private final Receiver receiver;
 
     public ExecuteScriptCommand(Receiver receiver) {

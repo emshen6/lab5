@@ -39,7 +39,6 @@ public class CollectionWrapper {
                     dataPackage = data.toString().split(";");
 
                     StudyGroupBuilder builder = new StudyGroupBuilder();
-                    builder.reset();
                     builder.setId(currentId);
                     currentId += 1;
                     builder.setGroupName(dataPackage[0]);
@@ -74,8 +73,9 @@ public class CollectionWrapper {
     }
 
     public void printCollection() {
+        StudyGroupFormatter formatter = new StudyGroupFormatter();
         for (StudyGroup i : collection) {
-            ClientOutput.print(i.getStudyGroupString());
+            ClientOutput.print(i.toFormattedString(formatter));
             ClientOutput.print();
         }
     }
@@ -95,16 +95,7 @@ public class CollectionWrapper {
     public String toString() {
         StringBuilder result = new StringBuilder();
         for (StudyGroup item : collection) {
-            result.append(item.getStudyGroupString());
-            result.append("\n");
-        }
-        return result.toString();
-    }
-
-    public String getSavableView(){
-        StringBuilder result = new StringBuilder();
-        for (StudyGroup item : collection) {
-            result.append(item.getAnotherStudyGroupString());
+            result.append(item.toFormattedString(new StudyGroupFormatter()));
             result.append("\n");
         }
         return result.toString();
@@ -147,7 +138,7 @@ public class CollectionWrapper {
     }
 
     public void showAndRemoveFirst() {
-        ClientOutput.print(Objects.requireNonNull(collection.poll()).getStudyGroupString());
+        ClientOutput.print(Objects.requireNonNull(collection.poll()).toFormattedString(new StudyGroupFormatter()));
     }
 
     public void removeByCount(Long count) {
@@ -158,7 +149,7 @@ public class CollectionWrapper {
         PriorityQueue<StudyGroup> c = new PriorityQueue<>(new AscendingCompare());
         c.addAll(collection);
         for (StudyGroup i : c) {
-            ClientOutput.print(i.getStudyGroupString());
+            ClientOutput.print(i.toFormattedString(new StudyGroupFormatter()));
             ClientOutput.print();
         }
     }

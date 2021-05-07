@@ -16,12 +16,12 @@ public interface Validation {
     static boolean validateCoordinates(Coordinates coordinates) {
         boolean resultX = validateX(coordinates.getX());
         boolean resultY = validateY(coordinates.getY());
-        if (!resultX){
+        if (!resultX) {
             ClientOutput.print("Invalid X!");
             return false;
         }
 
-        if (!resultY){
+        if (!resultY) {
             ClientOutput.print("Invalid Y!");
             return false;
         }
@@ -50,53 +50,53 @@ public interface Validation {
         Coordinates coordinates = studyGroup.getCoordinates();
         Person admin = studyGroup.getGroupAdmin();
         result = studyGroup.getName() != null;
-        if (!result){
+        if (!result) {
             ClientOutput.print("Study Group is invalid: no name.");
             return false;
         }
         result = studyGroup.getId() > 0;
-        if (!result){
+        if (!result) {
             ClientOutput.print("Study Group is invalid: invalid id.");
             return false;
         }
         result = coordinates != null;
-        if (!result){
+        if (!result) {
             ClientOutput.print("Study Group is invalid: coordinates are empty.");
             return false;
         }
         result = validateCoordinates(coordinates);
-        if (!result){
+        if (!result) {
             ClientOutput.print("Study Group is invalid: invalid coordinates.");
             return false;
         }
         result = studyGroup.getCreationDate() != null;
-        if (!result){
+        if (!result) {
             ClientOutput.print("Study Group is invalid: empty creation date.");
             return false;
         }
         result = studyGroup.getCreationDate() != null;
-        if (!result){
+        if (!result) {
             ClientOutput.print("Study Group is invalid: empty creation date.");
             return false;
         }
         result = studyGroup.getStudentsCount() > 0;
-        if (!result){
+        if (!result) {
             ClientOutput.print("Study Group is invalid: invalid students count.");
             return false;
         }
         result = studyGroup.getFormOfEducation() != null;
-        if (!result){
+        if (!result) {
             ClientOutput.print("Study Group is invalid: empty form of education.");
             return false;
         }
         result = studyGroup.getSemesterEnum() != null;
-        if (!result){
+        if (!result) {
             ClientOutput.print("Study Group is invalid: empty semester.");
             return false;
         }
 
         result = admin != null;
-        if (!result){
+        if (!result) {
             ClientOutput.print("Study Group is invalid: no admin.");
             return false;
         }

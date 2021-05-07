@@ -1,9 +1,6 @@
 package command;
 
-import collection.CollectionWrapper;
-import collection.StudyGroup;
-import collection.StudyGroupBuilder;
-import collection.Validation;
+import collection.*;
 import util.ClientOutput;
 
 import java.io.*;
@@ -14,13 +11,13 @@ import java.util.Scanner;
 import java.util.Stack;
 
 //Receiver class
-public class ConsoleReceiver implements Receiver {
+public class CommandManager implements Receiver {
 
     private static final ArrayList<String> usedScriptFiles = new ArrayList<>();
     private final Stack<String> history = new Stack<>();
     private final CollectionWrapper collection;
 
-    public ConsoleReceiver(CollectionWrapper collection) {
+    public CommandManager(CollectionWrapper collection) {
         this.collection = collection;
     }
 
@@ -81,7 +78,7 @@ public class ConsoleReceiver implements Receiver {
         try {
             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
             ClientOutput.print("Buffered output stream created.");
-            String text = collection.getSavableView();
+            String text = collection.toString();
             ClientOutput.print(file);
             byte[] buffer = text.getBytes();
             ClientOutput.print("Byte array created.");
@@ -129,7 +126,7 @@ public class ConsoleReceiver implements Receiver {
             usedScriptFiles.add(filename);
             try {
                 Scanner sc = new Scanner(new File(filename));
-                ConsoleReceiver consolereceiver = new ConsoleReceiver(collection);
+                CommandManager consolereceiver = new CommandManager(collection);
                 ConsoleBuilder builder = new ConsoleBuilder(consolereceiver);
                 Director director = new Director();
                 director.constructConsole(builder);
