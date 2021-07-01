@@ -1,14 +1,14 @@
 package command;
 
 //команда для вывода информации о коллекции
-public class InfoCommand implements CommandWithoutArg {
+public class InfoCommand implements Command {
     private final Receiver receiver;
 
     public InfoCommand(Receiver receiver) {
         this.receiver = receiver;
     }
 
-    public int execute() {
+    public int execute(Parameters parameters) {
         receiver.info();
         return 0;
     }

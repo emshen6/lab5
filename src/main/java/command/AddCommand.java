@@ -1,19 +1,15 @@
 package command;
 
 
-import collection.StudyGroupBuilder;
-
-public class AddCommand implements CommandWithoutArg {
+public class AddCommand implements Command {
     private final Receiver receiver;
 
     public AddCommand(Receiver receiver) {
         this.receiver = receiver;
     }
 
-    public int execute() {
-        StudyGroupBuilder builder = new StudyGroupBuilder();
-        builder.userInput();
-        receiver.add(builder);
+    public int execute(Parameters parameters) {
+        receiver.add(parameters.getStudyGroup());
         return 0;
     }
 

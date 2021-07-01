@@ -7,9 +7,8 @@ public class RemoveByIdCommand implements Command {
         this.receiver = receiver;
     }
 
-    public int execute(String args) {
-        int id = Integer.parseInt(args);
-        receiver.removeById(id);
+    public int execute(Parameters parameters) {
+        receiver.removeById(parameters.getNum());
         return 0;
     }
 

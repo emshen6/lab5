@@ -1,31 +1,20 @@
 package collection;
 
+import lombok.Data;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+
+@Data
 public class Coordinates {
-    private final Float x; //Максимальное значение поля: 429, Поле не может быть null
+    @NotNull
+    @Max(value = 429)
+    private Float x; //Максимальное значение поля: 429, Поле не может быть null
+    @Max(value = 398)
     private float y; //Максимальное значение поля: 398
 
-    Coordinates(Float x, float y) {
+    public Coordinates(float x, float y) {
         this.x = x;
         this.y = y;
-    }
-
-    Coordinates(Float x) {
-        this.x = x;
-    }
-
-    public String toString() {
-        String s = "";
-        s += Float.toString(x);
-        s += ";";
-        s += Float.toString(y);
-        return s;
-    }
-
-    public Float getX() {
-        return x;
-    }
-
-    public float getY() {
-        return y;
     }
 }

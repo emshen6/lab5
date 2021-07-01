@@ -5,7 +5,7 @@ import util.ClientOutput;
 import java.util.LinkedHashMap;
 
 //команда для вывода справки по доступным командам
-public class HelpCommand implements CommandWithoutArg {
+public class HelpCommand implements Command {
     private final Receiver receiver;
     private final LinkedHashMap<String, String> commandsList = new LinkedHashMap<>();
 
@@ -28,7 +28,7 @@ public class HelpCommand implements CommandWithoutArg {
         commandsList.put("print_ascending", "shows the elements of the collection in ascending order");
     }
 
-    public int execute() {
+    public int execute(Parameters parameters) {
         ClientOutput.print("Available commands list:");
         String description;
         for (String command : commandsList.keySet()) {

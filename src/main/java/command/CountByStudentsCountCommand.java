@@ -7,9 +7,8 @@ public class CountByStudentsCountCommand implements Command {
         this.receiver = receiver;
     }
 
-    public int execute(String args) {
-        Long studentsCount = Long.parseLong(args);
-        this.receiver.countByStudentsCount(studentsCount);
+    public int execute(Parameters parameters) {
+        receiver.countByStudentsCount(parameters.getCount());
         return 0;
     }
 

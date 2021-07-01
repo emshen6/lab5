@@ -1,13 +1,13 @@
 package command;
 
-public class HistoryCommand implements CommandWithoutArg {
+public class HistoryCommand implements Command {
     private final Receiver receiver;
 
     public HistoryCommand(Receiver receiver) {
         this.receiver = receiver;
     }
 
-    public int execute() {
+    public int execute(Parameters parameters) {
         receiver.history();
         return 0;
     }

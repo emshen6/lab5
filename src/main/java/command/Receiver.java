@@ -1,6 +1,6 @@
 package command;
 
-import collection.StudyGroupBuilder;
+import collection.StudyGroup;
 
 //Receiver interface
 public interface Receiver {
@@ -12,9 +12,9 @@ public interface Receiver {
 
     void exit();
 
-    void add(StudyGroupBuilder builder);
+    void add(StudyGroup studyGroup);
 
-    void updateId(StudyGroupBuilder builder, int id);
+    void updateId(StudyGroup studyGroup, int id);
 
     void removeById(int id);
 
@@ -35,4 +35,6 @@ public interface Receiver {
     void printAscending();
 
     void countByStudentsCount(Long studentCount);
+
+    StudyGroup readElement();
 }

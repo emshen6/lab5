@@ -7,9 +7,8 @@ public class RemoveAllByStudentsCountCommand implements Command {
         this.receiver = receiver;
     }
 
-    public int execute(String arg) {
-        Long count = Long.parseLong(arg);
-        receiver.removeAllByStudentsCount(count);
+    public int execute(Parameters parameters) {
+        receiver.removeAllByStudentsCount(parameters.getCount());
         return 0;
     }
 

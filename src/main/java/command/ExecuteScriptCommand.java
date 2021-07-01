@@ -7,9 +7,8 @@ public class ExecuteScriptCommand implements Command {
         this.receiver = receiver;
     }
 
-    public int execute(String arg) {
-
-        this.receiver.executeScript(arg);
+    public int execute(Parameters parameters) {
+        receiver.executeScript(parameters.getFilename());
         return 0;
     }
 

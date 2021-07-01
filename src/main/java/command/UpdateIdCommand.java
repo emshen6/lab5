@@ -1,8 +1,6 @@
 package command;
 
 
-import collection.StudyGroupBuilder;
-
 public class UpdateIdCommand implements Command {
     private final Receiver receiver;
 
@@ -10,12 +8,8 @@ public class UpdateIdCommand implements Command {
         this.receiver = receiver;
     }
 
-    public int execute(String arg) {
-        int id = Integer.parseInt(arg);
-        StudyGroupBuilder builder = new StudyGroupBuilder();
-        builder.userInput();
-        builder.setId(id);
-        receiver.updateId(builder, id);
+    public int execute(Parameters parameters) {
+        receiver.updateId(parameters.getStudyGroup(), parameters.getId());
         return 0;
     }
 

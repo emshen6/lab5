@@ -1,11 +1,14 @@
 package util;
 
-public interface ClientOutput {
-    static void print(String message) {
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
+public class ClientOutput {
+    public void print(String message) {
         System.out.println(message);
     }
 
-    static void print() {
+    public void print() {
         System.out.println();
     }
 }

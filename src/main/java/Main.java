@@ -1,24 +1,24 @@
-import collection.CollectionWrapper;
-import command.*;
+import collection.*;
+import command.Command;
+import command.CommandManager;
+import command.Parameters;
+import command.Receiver;
+import lombok.Builder;
+import util.ClientOutput;
+import util.CommandParser;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        final String envVar = "DATA";
-        Scanner sc = new Scanner(System.in);
-        CollectionWrapper collection = new CollectionWrapper(envVar);
-        collection.printCollection();
-        CommandManager consoleReceiver = new CommandManager(collection);
-        ConsoleBuilder builder = new ConsoleBuilder(consoleReceiver);
-        Director director = new Director();
-        director.constructConsole(builder);
-        ConsoleInvoker console = builder.getResult();
 
-        int flag=0;
-        while (flag == 0) {
-            String line = sc.nextLine();
-            flag = console.execute(line);
-        }
+        CollectionWrapper collectionWrapper = new CollectionWrapper("DATA");
+        Receiver receiver = new CommandManager(collectionWrapper);
+        App app = new App(collectionWrapper, receiver, new CommandParser(receiver));
+        app.start();
+
     }
 }
